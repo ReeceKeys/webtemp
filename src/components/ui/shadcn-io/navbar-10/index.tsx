@@ -8,7 +8,6 @@ import PersonalBtn from '@/components/personal_btn/personal_btn';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
-  NavigationMenuItem,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import {
@@ -28,12 +27,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import MyIcon from '@/assets/IM.png';
 
-// Simple logo component for the navbar
+// Logo
 const Logo = (props: React.SVGAttributes<SVGElement>) => (
   <img src={MyIcon} alt="icon" className="h-[8vh]" />
 );
 
-// User Menu Component
+// User Menu
 const UserMenu = ({
   userName = 'John Doe',
   userEmail = 'john@example.com',
@@ -127,14 +126,12 @@ export const Navbar10 = React.forwardRef<HTMLElement, Navbar10Props>(
       const checkWidth = () => {
         if (containerRef.current) setIsMobile(containerRef.current.offsetWidth < 768);
       };
-
       checkWidth();
       const resizeObserver = new ResizeObserver(checkWidth);
       if (containerRef.current) resizeObserver.observe(containerRef.current);
       return () => resizeObserver.disconnect();
     }, []);
 
-    // Combine refs
     const combinedRef = React.useCallback((node: HTMLElement | null) => {
       containerRef.current = node;
       if (typeof ref === 'function') ref(node);
@@ -150,7 +147,7 @@ export const Navbar10 = React.forwardRef<HTMLElement, Navbar10Props>(
         )}
         {...props}
       >
-        <div className="container mx-auto flex h-[8vh] max-w-screen-2xl items-center justify-between gap-4">
+        <div className="mx-auto bg-[#2f2f2f] flex h-[9vh] items-center justify-between gap-4 border-b border-black">
           {/* Left side */}
           <div className="flex flex-1 items-center">
             {isMobile ? (
@@ -158,35 +155,16 @@ export const Navbar10 = React.forwardRef<HTMLElement, Navbar10Props>(
                 <PopoverTrigger asChild>
                   <Button
                     size="sm"
-                    className="h-[8vh] py-0 px-3 hover:bg-gray-200 hover:text-gray-900 flex items-center gap-2"
+                    className="h-[8vh] py-0 px-3 hover:bg-gray-200 hover:text-gray-900 flex items-center gap-2 border-none shadow-none outline-none focus:outline-none"
                   >
                     <PhoneIcon size={18} />
                     <span className="sr-only">Mobile Menu</span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent align="start" className="w-56">
+                <PopoverContent align="start" className="w-40">
                   <NavigationMenu className="max-w-none">
-                    <NavigationMenuList className="flex-col items-start gap-0">
-                      {navigationLinks.map((link, index) => {
-                        const Icon = link.icon;
-                        return (
-                          <NavigationMenuItem key={index} className="w-full">
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                if (onNavItemClick && link.href) onNavItemClick(link.href);
-                              }}
-                              className={cn(
-                                'flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer no-underline',
-                                link.active && 'bg-accent text-accent-foreground'
-                              )}
-                            >
-                              <Icon size={16} className="text-muted-foreground/80" aria-hidden />
-                              <span>{link.label}</span>
-                            </button>
-                          </NavigationMenuItem>
-                        );
-                      })}
+                    <NavigationMenuList className="relative flex-col items-start gap-0">
+                      <PersonalBtn />
                     </NavigationMenuList>
                   </NavigationMenu>
                 </PopoverContent>
@@ -198,7 +176,7 @@ export const Navbar10 = React.forwardRef<HTMLElement, Navbar10Props>(
             )}
           </div>
 
-          {/* Middle side: Logo */}
+          {/* Middle: Logo */}
           <div className="flex items-center">
             <button
               onClick={(e) => e.preventDefault()}
@@ -208,17 +186,18 @@ export const Navbar10 = React.forwardRef<HTMLElement, Navbar10Props>(
             </button>
           </div>
 
-          {/* Right side: Upgrade button */}
+          {/* Right: Upgrade button */}
           <div className="flex flex-1 items-center justify-end gap-4">
             <Button
               size="sm"
-              className="text-[16px] h-[8vh] hover:cursor-pointer"
+              className="text-[16px] h-[8vh] flex items-center gap-2 border-none shadow-none outline-none focus:outline-none
+                         transition-colors duration-200 hover:cursor-pointer hover:text-[#f8ffc5ff] hover:fill-[#f8ffc5ff]"
               onClick={() => {
                 if (onUpgradeClick) onUpgradeClick("https://influencemeweb.vercel.app/");
                 else window.open("https://influencemeweb.vercel.app/", "_blank");
               }}
             >
-              <SiSocialblade className="opacity-100 mr-4" size={20} aria-hidden />
+              <SiSocialblade className="mr-2 transition-colors duration-200" size={20} aria-hidden />
               <span className="hidden sm:inline">{upgradeText}</span>
               <span className="sm:hidden sr-only">{upgradeText}</span>
             </Button>

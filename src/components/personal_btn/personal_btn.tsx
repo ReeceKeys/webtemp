@@ -2,49 +2,67 @@ import styled from 'styled-components';
 import { FaInstagramSquare } from 'react-icons/fa';
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { FaGithub } from "react-icons/fa6";
+import * as React from 'react';
 
 const PersonalBtn = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // Desktop vs mobile sizes and gaps
+  const iconSize = isMobile ? 30 : 35;
+  const iconGap = isMobile ? 20 : 30;
+  const buttonHeight = isMobile ? '6vh' : '8vh';
+
   return (
-    <StyledWrapper>
+    <StyledWrapper buttonHeight={buttonHeight}>
       <button className="btn">
         <span>Connect</span>
-        <div className="container">
-          <a href='https://www.instagram.com' target='_blank'><FaInstagramSquare size={35}/></a>
-          <a href=''><IoPersonCircleSharp size={35}/></a>
-          <a href='https://www.github.com' target='_blank'><FaGithub size={35}/></a>
+        <div className="container" style={{ gap: iconGap }}>
+          <a href='https://www.instagram.com' target='_blank'><FaInstagramSquare size={iconSize}/></a>
+          <a href=''><IoPersonCircleSharp size={iconSize}/></a>
+          <a href='https://www.github.com' target='_blank'><FaGithub size={iconSize}/></a>
         </div>
       </button>
     </StyledWrapper>
   );
 }
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div<{ buttonHeight: string }>`
   .btn {
     position: relative;
     display: flex;
-    justify-content: center; /* center horizontally */
-    align-items: center;     /* center vertically */
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
     cursor: default;
     width: 200px;
-    height: 8vh;
+    height: ${(props) => props.buttonHeight};
     border: none;
-    transition: all 1s ease;
+    box-shadow: none;
+    padding: 0;
+    outline: none;
+    transition: all 0.5s ease;
+    background-color: #2f2f2f;
   }
 
   .btn span {
-    position: relative; /* <-- was absolute, now relative */
+    position: relative;
     height: 100%;
     width: 100%;
     display: flex;
     pointer-events: none;
-    justify-content: center; /* center horizontally */
-    align-items: center;     /* center vertically */
+    justify-content: center;
+    align-items: center;
     z-index: 99;
     font-weight: 600;
-    font-size: 16px;   /* adjust size as needed */
+    font-size: 16px;
     text-align: center;
-    line-height: 1;    /* not needed to match height now */
     letter-spacing: 2px;
     color: #eeeeed;
     background-color: #2f2f2f;
@@ -54,16 +72,19 @@ const StyledWrapper = styled.div`
 
   .btn .container {
     display: flex;
-    justify-content: center; /* center horizontally */
-    align-items: center;     /* center vertically */
-    gap: 30px; /* increase space between icons */
-    position: absolute; /* hover icons appear over button */
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
   }
 
   .btn a {
     opacity: 0;
-    transition: opacity 1s ease;
-    color: "black";
+    transition: opacity 0.5s ease;
+    color: white;
   }
 
   .btn:hover span {
@@ -73,11 +94,30 @@ const StyledWrapper = styled.div`
   .btn:hover a {
     opacity: 1;
   }
-  .btn a:hover {
-    color: #b8b8b8ff;
-    cusror: pointer;
-    }
-`;
 
+  @media (hover: hover) {
+    .btn a:hover {
+      color: #f8ffc5ff;
+      cursor: pointer;
+    }
+  }
+
+  /* Mobile: always show icons, hide text, adjust height */
+  @media (max-width: 768px) {
+    .btn {
+      height: 6vh;
+      width: 150px;
+      background-color: transparent;
+    }
+
+    .btn span {
+      display: none;
+    }
+
+    .btn a {
+      opacity: 1;
+    }
+  }
+`;
 
 export default PersonalBtn;

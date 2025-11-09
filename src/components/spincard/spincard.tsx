@@ -69,7 +69,7 @@ const Card = styled.div<{ $large?: boolean }>`
     position: absolute;
     inset: -6px;
     border-radius: 12px;
-    background: linear-gradient(-45deg, #f8ffc5ff 0%, #f8fbdfff 100%);
+    background: linear-gradient(-45deg, #eaf1b5ff 0%, #eff5adff 100%);
     z-index: 0;
     pointer-events: none;
     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -85,7 +85,7 @@ const Card = styled.div<{ $large?: boolean }>`
     position: absolute;
     inset: -6px;
     border-radius: 12px;
-    background: linear-gradient(-45deg, #f8ffc5ff 0%, #f8fbdfff 100%);
+    background: linear-gradient(-45deg, #eaf2aaff 0%, #eff89eff 100%);
     z-index: -1;
     pointer-events: none;
     transition: filter 0.6s;
@@ -94,6 +94,14 @@ const Card = styled.div<{ $large?: boolean }>`
       transition: none; /* disable animation on mobile */
     }
   }
+
+  @media (max-width: 768px) {
+  &::before,
+  &::after {
+    inset: -3px; // smaller border on mobile
+  }
+}
+
 
   .content {
     position: relative;
@@ -116,7 +124,14 @@ const Card = styled.div<{ $large?: boolean }>`
     top: 16px;
     left: 16px;
     font-size: 28px;
-    color: #f8ffc5ff;
+    color: #f3fcb2ff;
+    
+    @media (max-width: 768px) {
+    top: 16px;   // new mobile position
+    left: auto; 
+    right: 16px; // or wherever you want
+    font-size: 24px; // optional smaller icon
+  }
   }
 
   .heading {
